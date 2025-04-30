@@ -1,25 +1,18 @@
-# SKELETON - Module template
+# SetXpBar Module
 
-[English](README.md) | [Español](README_ES.md)
+The `mod-setxpbar` module for AzerothCore enhances the [Individual XP Module](https://github.com/azerothcore/mod-individual-xp) by injecting a client-side script that allows players to control their experience gain rate by **right-clicking their XP bar**. This module eliminates the need for players to manually install an [addon](https://github.com/brian8544/SetXpBar) or know specific commands, providing a seamless way to customize their leveling experience, whether they prefer a faster pace or the classic Blizzlike progression. The idea for this module is inspired by this exact feature found on large World of Warcraft private servers, such as [Warmane](https://www.warmane.com/).
 
+## Requirements
+- [mod-individual-xp](https://github.com/azerothcore/mod-individual-xp) module installed and configured.
+- An **unpatched World of Warcraft 3.3.5 client**. RCE-Patched clients using tools like [RCEPatcher](https://github.com/stoneharry/RCEPatcher) will prevent the script injection from working.
 
-## How to create your own module
+## Installation
+1. Clone this repository into your AzerothCore `modules` directory
+2. Re-run CMake and rebuild your AzerothCore server to include the `mod-setxpbar` module.
+3. Copy the `mod_setxpbar.conf.dist` file to your server's configuration directory.
 
-1. Use the script `create_module.sh` located in [`modules/`](https://github.com/azerothcore/azerothcore-wotlk/tree/master/modules) to start quickly with all the files you need and your git repo configured correctly (heavily recommended).
-1. You can then use these scripts to start your project: https://github.com/azerothcore/azerothcore-boilerplates
-1. Do not hesitate to compare with some of our newer/bigger/famous modules.
-1. Edit the `README.md` and other files (`include.sh` etc...) to fit your module. Note: the README is automatically created from `README_example.md` when you use the script `create_module.sh`.
-1. Publish your module to our [catalogue](https://www.azerothcore.org/catalogue.html).
+## Demo
+![GIF](https://i.imgur.com/gctjFVh.gif)
 
-
-## How to test your module?
-
-Disable PCH (precompiled headers) and try to compile. To disable PCH, set `-DNOPCH=1` with Cmake (more info [here](http://www.azerothcore.org/wiki/CMake-options)).
-
-If you forgot some headers, it is time to add them!
-
-## Licensing
-
-The default license of the skeleton-module template is the MIT but you can use a different license for your own modules.
-
-So modules can also be kept private. However, if you need to add new hooks to the core, as well as improving existing ones, you have to share your improvements because the main core is released under the AGPL license. Please [provide a PR](https://www.azerothcore.org/wiki/How-to-create-a-PR) if that is the case.
+## Copyright
+License: GPL 2.0

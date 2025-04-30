@@ -1,0 +1,13 @@
+[worldserver]
+
+########################################
+# SetXpBar configuration
+########################################
+#
+#    SetXpBar.Enable
+#        Description: Enable or disable the SetXpBar module.
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+
+SetXpBar.Enable = 1
