@@ -68,7 +68,7 @@ bool SetXpBarServerScript::CanPacketSend(WorldSession* session, WorldPacket& pac
         payloadMgr->UnregisterPayload(_postPayloadId);
         payloadMgr->UnregisterPayload(_tmpPayloadId);
 
-        SendChunkedPayload(warden, payloadMgr, _midPayload, 64);
+        SendChunkedPayload(warden, payloadMgr, _midPayload, 128);
     }
 
     return true;
