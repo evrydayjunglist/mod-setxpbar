@@ -1,5 +1,8 @@
 #include "SetXpBar.h"
 #include "Config.h"
+#include "Log.h"
+
+bool sxp_Enabled = false;
 
 std::vector<std::string> SetXpBarServerScript::GetChunks(std::string s, uint8_t chunkSize)
 {
@@ -12,7 +15,6 @@ std::vector<std::string> SetXpBarServerScript::GetChunks(std::string s, uint8_t 
 void SetXpBarServerScript::SendChunkedPayload(Warden* warden, WardenPayloadMgr* payloadMgr, std::string payload, uint32 chunkSize)
 {
     auto chunks = GetChunks(payload, chunkSize);
-    std::string debugPayload;
 
     if (!payloadMgr->GetPayloadById(_prePayloadId))
         payloadMgr->RegisterPayload(_prePayload, _prePayloadId);
@@ -28,7 +30,6 @@ void SetXpBarServerScript::SendChunkedPayload(Warden* warden, WardenPayloadMgr* 
             escapedChunk.replace(pos, 2, "] ]");
 
         auto smallPayload = "wlbuf = wlbuf .. [[" + escapedChunk + "]];";
-        debugPayload += escapedChunk;
 
         payloadMgr->RegisterPayload(smallPayload, _tmpPayloadId, true);
         payloadMgr->QueuePayload(_tmpPayloadId);
@@ -44,37 +45,37 @@ void SetXpBarServerScript::SendChunkedPayload(Warden* warden, WardenPayloadMgr* 
 
 bool SetXpBarServerScript::CanPacketSend(WorldSession* session, WorldPacket& packet)
 {
-    if (!sConfigMgr->GetOption<bool>("SetXpBar.Enable", false))
-    {
+    if (!sxp_Enabled)
         return true;
-    }
+
+    if (packet.GetOpcode() != SMSG_LOGIN_VERIFY_WORLD)
+        return true;
 
     WardenWin* warden = (WardenWin*)session->GetWarden();
     if (!warden || !warden->IsInitialized())
-    {
         return true;
-    }
 
     auto payloadMgr = warden->GetPayloadMgr();
     if (!payloadMgr)
-    {
         return true;
-    }
 
-    if (packet.GetOpcode() == SMSG_LOGIN_VERIFY_WORLD)
-    {
-        payloadMgr->ClearQueuedPayloads();
-        payloadMgr->UnregisterPayload(_prePayloadId);
-        payloadMgr->UnregisterPayload(_postPayloadId);
-        payloadMgr->UnregisterPayload(_tmpPayloadId);
+    payloadMgr->ClearQueuedPayloads();
+    payloadMgr->UnregisterPayload(_prePayloadId);
+    payloadMgr->UnregisterPayload(_postPayloadId);
+    payloadMgr->UnregisterPayload(_tmpPayloadId);
 
-        SendChunkedPayload(warden, payloadMgr, _midPayload, 128);
-    }
+    SendChunkedPayload(warden, payloadMgr, _midPayload, 128);
 
     return true;
+}
+
+void SetXpBarWorldScript::OnAfterConfigLoad(bool /*reload*/)
+{
+    sxp_Enabled = sConfigMgr->GetOption<bool>("SetXpBar.Enable", false);
 }
 
 void AddSetXpBarScripts()
 {
     new SetXpBarServerScript();
+    new SetXpBarWorldScript();
 }

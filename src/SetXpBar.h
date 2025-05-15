@@ -4,6 +4,9 @@
 #include "Player.h"
 #include "ScriptMgr.h"
 #include "WardenWin.h"
+#include "Config.h"
+
+extern bool sxp_Enabled;
 
 const std::string _addonPayloadSetXpBar = R"lua(
 local function SetXpRate(rate)
@@ -69,6 +72,15 @@ private:
     bool CanPacketSend(WorldSession* session, WorldPacket& packet) override;
     std::vector<std::string> GetChunks(std::string s, uint8_t chunkSize);
     void SendChunkedPayload(Warden* warden, WardenPayloadMgr* payloadMgr, std::string payload, uint32 chunkSize);
+};
+
+class SetXpBarWorldScript : public WorldScript
+{
+public:
+    SetXpBarWorldScript() : WorldScript("SetXpBarWorldScript", { WORLDHOOK_ON_AFTER_CONFIG_LOAD }) {}
+
+private:
+    void OnAfterConfigLoad(bool reload) override;
 };
 
 #endif // MODULE_SETXPBAR_H
