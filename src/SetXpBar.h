@@ -15,6 +15,7 @@ end
 local xpRates = {
     {text="Experience:",isTitle=true},
     {text="x1 (Blizzlike)",func=function() SetXpRate(1) end},
+    {text="x2",func=function() SetXpRate(2) end},
     {text="x3",func=function() SetXpRate(3) end},
     {text="x5",func=function() SetXpRate(5) end},
     {text="x7",func=function() SetXpRate(7) end},
