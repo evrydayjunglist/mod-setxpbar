@@ -3,6 +3,7 @@
 #include "Log.h"
 
 bool sxp_Enabled = false;
+bool sxp_UseIndividualXpFormat = false;
 
 std::vector<std::string> SetXpBarServerScript::GetChunks(std::string s, uint8_t chunkSize)
 {
@@ -64,7 +65,11 @@ bool SetXpBarServerScript::CanPacketSend(WorldSession* session, WorldPacket& pac
     payloadMgr->UnregisterPayload(_postPayloadId);
     payloadMgr->UnregisterPayload(_tmpPayloadId);
 
-    SendChunkedPayload(warden, payloadMgr, _midPayload, 128);
+    // Use the appropriate payload based on the XP system
+    if (sxp_UseIndividualXpFormat)
+        SendChunkedPayload(warden, payloadMgr, _midPayloadIndividualXp, 128);
+    else
+        SendChunkedPayload(warden, payloadMgr, _midPayload, 128);
 
     return true;
 }
@@ -72,6 +77,7 @@ bool SetXpBarServerScript::CanPacketSend(WorldSession* session, WorldPacket& pac
 void SetXpBarWorldScript::OnAfterConfigLoad(bool /*reload*/)
 {
     sxp_Enabled = sConfigMgr->GetOption<bool>("SetXpBar.Enable", false);
+    sxp_UseIndividualXpFormat = sConfigMgr->GetOption<bool>("SetXpBar.UseIndividualXpFormat", false);
 }
 
 void AddSetXpBarScripts()

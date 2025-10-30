@@ -9,5 +9,12 @@
 #        Default:     1 - Enabled
 #                     0 - Disabled
 #
+#    SetXpBar.UseIndividualXpFormat
+#        Description: Use .xp set N format (for mod-individual-xp).
+#                     If disabled, uses .xp N format (for Custom_XP.lua).
+#        Default:     0 - Disabled (uses Custom_XP.lua format)
+#                     1 - Enabled (uses mod-individual-xp format)
+#
 
 SetXpBar.Enable = 1
+SetXpBar.UseIndividualXpFormat = 0
