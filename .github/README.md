@@ -4,6 +4,7 @@ The `mod-setxpbar` module for AzerothCore enhances the [Individual XP Module](ht
 
 ## Requirements
 - [mod-individual-xp](https://github.com/azerothcore/mod-individual-xp) module installed and configured.
+- OR [Config_rates](https://github.com/Day36512/Config_Rates)
 - An **unpatched World of Warcraft 3.3.5 client**. RCE-Patched clients using tools like [RCEPatcher](https://github.com/stoneharry/RCEPatcher) will prevent the script injection from working.
 
 ## Installation
